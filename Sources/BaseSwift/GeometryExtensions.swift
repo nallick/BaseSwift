@@ -4,7 +4,7 @@
 //  Copyright © 2017-2021 Purgatory Design. Licensed under the MIT License.
 //
 
-#if canImport(ObjectiveC)
+#if canImport(CoreGraphics)
 
 import CoreGraphics
 

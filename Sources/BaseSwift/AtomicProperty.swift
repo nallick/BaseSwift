@@ -9,9 +9,7 @@ public final class Atomic<Value> {
     private let mutex = UnfairLock()
     private var value: Value
 
-    public var projectedValue: Atomic<Value> {
-        return self
-    }
+    public var projectedValue: Atomic<Value> { self }
 
     public var wrappedValue: Value {
         get {

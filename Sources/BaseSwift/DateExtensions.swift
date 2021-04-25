@@ -14,20 +14,16 @@ public extension Date {
         self = date
     }
 
-    @inlinable static var now: Date {
-        Date()
-    }
+    @inlinable static var now: Date { Date() }
 
     static var yesterday: Date {
-        Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+        Calendar.current.date(byAdding: .day, value: -1, to: .now)!
     }
 
-    @inlinable static var today: Date {
-        Date()
-    }
+    @inlinable static var today: Date { .now }
 
     static var tomorrow: Date {
-        Calendar.current.date(byAdding: .day, value: 1, to: Date())!
+        Calendar.current.date(byAdding: .day, value: 1, to: .now)!
     }
 
     var dayOfWeek: String {

@@ -23,16 +23,16 @@ extension Result {
         return value
     }
 
-    @inlinable  public var error: Failure? {
+    @inlinable public var error: Failure? {
         guard case let .failure(error) = self else { return nil }
         return error
     }
 
-    @inlinable public func or(_ else: @escaping (Error) -> Void) {
+    @inlinable public func or(_ else: @escaping (Failure) -> Void) {
         if let error = self.error { `else`(error) }
     }
 
-    public func or(_ else: @escaping (Error) -> Success) -> Success {
+    public func or(_ else: @escaping (Failure) -> Success) -> Success {
         switch self {
             case .success(let value): return value
             case .failure(let error): return `else`(error)
@@ -40,16 +40,14 @@ extension Result {
     }
 }
 
-#if canImport(ObjectiveC)
+#if canImport(Combine)
 
 import Combine
 
 @available(iOS 13.0, macOS 10.15, *)
 extension Result {
 
-    @inlinable public var just: Just<Result<Success, Failure>> {
-        return Just(self)
-    }
+    @inlinable public var just: Just<Result<Success, Failure>> { Just(self) }
 }
 
 @available(iOS 13.0, macOS 10.15, *)
