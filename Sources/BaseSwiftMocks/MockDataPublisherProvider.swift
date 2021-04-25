@@ -62,19 +62,3 @@ public class MockDataPublisherProvider: DataPublisherProvider {
 }
 
 #endif
-
-
-extension URLResponse {
-
-    public static func mockResponse(statusCode: Int) -> HTTPURLResponse {
-        HTTPURLResponse(url: URL(string: "abc.de")!, statusCode: statusCode, httpVersion: nil, headerFields: nil)!
-    }
-
-    public static var mockSuccess: HTTPURLResponse {
-        self.mockResponse(statusCode: 200)
-    }
-
-    public static var mockFailure: HTTPURLResponse {
-        self.mockResponse(statusCode: 500)
-    }
-}
