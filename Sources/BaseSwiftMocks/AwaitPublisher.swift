@@ -12,7 +12,7 @@ import XCTest
 extension XCTestCase {
 
     @available(iOS 13.0, macOS 10.15, *)
-    public func await<T: Publisher>(_ publisher: T, timeout: TimeInterval = 2.0, isFulfilledByFirstValue: Bool = false, file: StaticString = #file, line: UInt = #line, isFulfilledBy: ((T.Output) -> Bool)? = nil) throws -> T.Output {
+    public func awaitPublisher<T: Publisher>(_ publisher: T, timeout: TimeInterval = 2.0, isFulfilledByFirstValue: Bool = false, file: StaticString = #file, line: UInt = #line, isFulfilledBy: ((T.Output) -> Bool)? = nil) throws -> T.Output {
         let result = try awaitResult(from: publisher, timeout: timeout, isFulfilledByFirstValue: isFulfilledByFirstValue, file: file, line: line, isFulfilledBy: isFulfilledBy)
         return try result.get()
     }
