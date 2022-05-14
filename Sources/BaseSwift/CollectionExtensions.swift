@@ -32,7 +32,7 @@ public extension Collection where Self: BidirectionalCollection {
 //
 //  Provides safe subscript access.
 //
-public extension Collection where Indices.Iterator.Element: Equatable, Index == Self.Indices.Iterator.Element {
+public extension Collection where Index == Self.Indices.Iterator.Element {
 
     subscript(safe index: Self.Index) -> Self.Iterator.Element? {
         guard self.indices.contains(index) else { return nil }
