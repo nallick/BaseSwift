@@ -1,7 +1,7 @@
 //
 //  ResultExtensions.swift
 //
-//  Copyright © 2019-2021 Purgatory Design. Licensed under the MIT License.
+//  Copyright © 2019-2022 Purgatory Design. Licensed under the MIT License.
 //
 
 import Foundation
@@ -36,6 +36,20 @@ extension Result {
         switch self {
             case .success(let value): return value
             case .failure(let error): return `else`(error)
+        }
+    }
+}
+
+@available(swift 5.5)
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension Result where Failure == Error {
+
+    public init(catching body: () async throws -> Success) async {
+        do {
+            let value = try await body()
+            self = .success(value)
+        } catch {
+            self = .failure(error)
         }
     }
 }
