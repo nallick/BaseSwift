@@ -13,7 +13,7 @@ import Foundation
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension Publisher {
 
-    public func async() async -> Result<Output, Failure> {
+    public func asyncResult() async -> Result<Output, Failure> {
         await withCheckedContinuation { continuation in
             var pipeline: AnyCancellable?
             pipeline = self

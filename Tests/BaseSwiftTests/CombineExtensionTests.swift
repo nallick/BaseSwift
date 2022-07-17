@@ -19,7 +19,7 @@ final class CombineExtensionTests: XCTestCase {
         let expectedValue = 123
         let publisher = CurrentValueSubject<Int, TestError>(expectedValue)
 
-        let actualResult: Result<Int, TestError> = await publisher.async()
+        let actualResult = await publisher.asyncResult()
 
         XCTAssertEqual(actualResult.value, expectedValue)
     }
@@ -29,7 +29,7 @@ final class CombineExtensionTests: XCTestCase {
         let publisher = CurrentValueSubject<Int, TestError>(0)
         publisher.send(completion: .failure(expectedError))
 
-        let actualResult: Result<Int, TestError> = await publisher.async()
+        let actualResult = await publisher.asyncResult()
 
         XCTAssertEqual(actualResult.error, expectedError)
     }
@@ -38,7 +38,7 @@ final class CombineExtensionTests: XCTestCase {
         let expectedValue = 123
         let publisher = CurrentValueSubject<Int, TestError>(expectedValue)
 
-        let actualValue: Int = try await publisher.async()
+        let actualValue = try await publisher.async()
 
         XCTAssertEqual(actualValue, expectedValue)
     }
@@ -50,7 +50,7 @@ final class CombineExtensionTests: XCTestCase {
 
         var actualError: TestError?
         do {
-            let _: Int = try await publisher.async()
+            _ = try await publisher.async()
         } catch {
             actualError = error as? TestError
         }
@@ -62,7 +62,7 @@ final class CombineExtensionTests: XCTestCase {
         let expectedValue = 456
         let publisher = CurrentValueSubject<Int, Never>(expectedValue)
 
-        let actualValue: Int = await publisher.async()
+        let actualValue = await publisher.async()
 
         XCTAssertEqual(actualValue, expectedValue)
     }
