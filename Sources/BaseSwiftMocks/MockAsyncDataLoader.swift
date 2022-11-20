@@ -9,27 +9,30 @@ import Foundation
 
 @available(swift 5.5)
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
-public class MockAsyncDataLoader: AsyncDataLoader {
+open class MockAsyncDataLoader: AsyncDataLoader {
 
     public var response: URLResponse
     public var responseBody: Data
     public var responseError: URLError?
     public var responseUrl: URL
+    public var isCancelled: Bool
 
     public var responses: [URLResponse]?
     public var responseBodies: [Data]?
     public var responseErrors: [URLError]?
     public var responseUrls: [URL]?
+    public var cancelations: [Bool]?
 
     public var requests: [URLRequest] = []
     public var resumeData: [Data] = []
     public var urls: [URL] = []
 
-    public init(response: URLResponse = URLResponse(), responseBody: Data = Data(), responseError: URLError? = nil, responseUrl: URL = URL(string: "/")!) {
+    public init(response: URLResponse = URLResponse(), responseBody: Data = Data(), responseError: URLError? = nil, responseUrl: URL = URL(string: "/")!, isCancelled: Bool = false) {
         self.response = response
         self.responseBody = responseBody
         self.responseError = responseError
         self.responseUrl = responseUrl
+        self.isCancelled = isCancelled
     }
 
     public var nextResponse: URLResponse {
@@ -50,7 +53,14 @@ public class MockAsyncDataLoader: AsyncDataLoader {
         return firstUrl
     }
 
-    public var nextError: URLError? {
+    public var nextIsCancelled: Bool {
+        guard let cancelationList = self.cancelations, let firstIsCancelled = cancelationList.first else { return self.isCancelled }
+        self.cancelations = Array(cancelationList.dropFirst())
+        return firstIsCancelled
+    }
+
+    public var nextError: Error? {
+        if self.nextIsCancelled { return CancellationError() }
         guard let errorList = self.responseErrors, let firstError = errorList.first else { return self.responseError }
         self.responseErrors = Array(errorList.dropFirst())
         return firstError

@@ -1,7 +1,7 @@
 //
 //  MockDataPublisherProvider.swift
 //
-//  Copyright © 2021 Purgatory Design. Licensed under the MIT License.
+//  Copyright © 2021-2022 Purgatory Design. Licensed under the MIT License.
 //
 
 #if canImport(Combine)
@@ -10,8 +10,8 @@ import BaseSwift
 import Combine
 import Foundation
 
-@available(iOS 13.0, macOS 10.15, *)
-public class MockDataPublisherProvider: DataPublisherProvider {
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+open class MockDataPublisherProvider: DataPublisherProvider {
 
     public var response: URLResponse
     public var responseBody: Data
@@ -29,25 +29,25 @@ public class MockDataPublisherProvider: DataPublisherProvider {
         self.responseError = responseError
     }
 
-    public var nextResponse: URLResponse {
+    open var nextResponse: URLResponse {
         guard let responseList = self.responses, let firstResponse = responseList.first else { return self.response }
         self.responses = Array(responseList.dropFirst())
         return firstResponse
     }
 
-    public var nextResponseBody: Data {
+    open var nextResponseBody: Data {
         guard let bodyList = self.responseBodies, let firstBody = bodyList.first else { return self.responseBody }
         self.responseBodies = Array(bodyList.dropFirst())
         return firstBody
     }
 
-    public var nextError: URLError? {
+    open var nextError: URLError? {
         guard let errorList = self.responseErrors, let firstError = errorList.first else { return self.responseError }
         self.responseErrors = Array(errorList.dropFirst())
         return firstError
     }
 
-    public func dataPublisher(for request: URLRequest) -> AnyPublisher<URLSession.DataTaskPublisher.Output, URLError> {
+    open func dataPublisher(for request: URLRequest) -> AnyPublisher<URLSession.DataTaskPublisher.Output, URLError> {
         self.requests.append(request)
 
         if let error = self.nextError {
