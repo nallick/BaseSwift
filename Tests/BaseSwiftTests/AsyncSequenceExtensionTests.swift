@@ -1,11 +1,15 @@
 //
 //  AsyncSequenceExtensionTests.swift
 //
-//  Copyright © 2022 Purgatory Design. Licensed under the MIT License.
+//  Copyright © 2022-2024 Purgatory Design. Licensed under the MIT License.
 //
 
 import BaseSwift
 import XCTest
+
+#if os(Linux)
+import BaseSwiftMocks
+#endif
 
 @available(swift 5.5)
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
@@ -34,4 +38,16 @@ final class AsyncSequenceExtensionTests: XCTestCase {
 
         XCTAssertEqual(actualValue, expectedValue)
     }
+
+#if os(Linux)
+
+    func testAsyncFirstReturnsFirstInSequence() throws {
+        try self.performAsyncTest(testFirstReturnsFirstInSequence)
+    }
+
+    static var allTests = [
+        ("testFirstReturnsFirstInSequence", testAsyncFirstReturnsFirstInSequence),
+    ]
+
+#endif
 }

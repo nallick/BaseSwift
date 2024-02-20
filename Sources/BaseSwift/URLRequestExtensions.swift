@@ -1,10 +1,14 @@
 //
 //  URLRequestExtensions.swift
 //
-//  Copyright © 2021 Purgatory Design. Licensed under the MIT License.
+//  Copyright © 2021-2024 Purgatory Design. Licensed under the MIT License.
 //
 
 import Foundation
+
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 extension URLRequest {
 

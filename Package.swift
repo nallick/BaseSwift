@@ -24,6 +24,6 @@ let package = Package(
             dependencies: ["BaseSwift"]),
         .testTarget(
             name: "BaseSwiftTests",
-            dependencies: ["BaseSwift"]),
+            dependencies: ["BaseSwift", "BaseSwiftMocks"]),
     ]
 )

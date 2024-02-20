@@ -1,10 +1,14 @@
 //
 //  AsyncDataLoader.swift
 //
-//  Copyright © 2022 Purgatory Design. Licensed under the MIT License.
+//  Copyright © 2022-2024 Purgatory Design. Licensed under the MIT License.
 //
 
 import Foundation
+
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 @available(swift 5.5)
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)

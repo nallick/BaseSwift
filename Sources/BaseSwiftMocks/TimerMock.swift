@@ -1,7 +1,7 @@
 //
 //  TimerMock.swift
 //
-//  Copyright © 2019-2021 Purgatory Design. Licensed under the MIT License.
+//  Copyright © 2019-2024 Purgatory Design. Licensed under the MIT License.
 //
 
 import BaseSwift
@@ -12,17 +12,22 @@ open class MockTimer: TimerType {
     public var timeInterval: TimeInterval = 0.0
     public var repeats = false
     public var target: Any?
-    public var selector: Selector?
     public var block: ((TimerType) -> Void)?
     public var invalidatedCount = 0
     public var hasBeenScheduled = false
 
+#if canImport(ObjectiveC)
+    public var selector: Selector?
+#endif
+
     public init() {}
 
     open func fire() {
+#if canImport(ObjectiveC)
         if let target = self.target, let selector = self.selector {
             _ = (target as AnyObject).perform(selector)
         }
+#endif
 
         self.block?(self)
     }
@@ -61,7 +66,9 @@ open class MockTimerFactory: TimerFactory {
         return result
     }
 
-    open class func scheduledOneShotTimer(timeInterval: TimeInterval, target: Any, selector: Selector) -> TimerType {
+ #if canImport(ObjectiveC)
+
+   open class func scheduledOneShotTimer(timeInterval: TimeInterval, target: Any, selector: Selector) -> TimerType {
         let result = self.timers.first ?? MockTimer()
 
         result.fireDate = Date(timeIntervalSinceNow: timeInterval)
@@ -88,6 +95,8 @@ open class MockTimerFactory: TimerFactory {
         self.timers = Array(self.timers.dropFirst())
         return result
     }
+#endif
+
 }
 
 extension Timer {

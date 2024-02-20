@@ -1,11 +1,16 @@
 //
 //  URLRequestExtensionTests.swift
 //  
-//  Copyright © 2021 Purgatory Design. All rights reserved.
+//  Copyright © 2021-2024 Purgatory Design. All rights reserved.
 //
 
+import BaseSwift
 import Foundation
 import XCTest
+
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 final class URLRequestExtensionTests: XCTestCase {
 
@@ -38,6 +43,12 @@ final class URLRequestExtensionTests: XCTestCase {
             XCTAssertEqual(urlRequest.httpMethod, method.rawValue)
         }
     }
+
+    static var allTests = [
+        ("testCaseIterableIsExhaustive", testCaseIterableIsExhaustive),
+        ("testRawValueIsUppercasedEnum", testRawValueIsUppercasedEnum),
+        ("testMethodSetCanBeRetreavedThroughGetAndAsHttpMethod", testMethodSetCanBeRetreavedThroughGetAndAsHttpMethod),
+    ]
 }
 
 extension URLRequest.HttpMethod: CaseIterable {

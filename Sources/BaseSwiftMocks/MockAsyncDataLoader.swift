@@ -1,11 +1,15 @@
 //
 //  MockAsyncDataLoader.swift
 //
-//  Copyright © 2022 Purgatory Design. Licensed under the MIT License.
+//  Copyright © 2022-2024 Purgatory Design. Licensed under the MIT License.
 //
 
 import BaseSwift
 import Foundation
+
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 @available(swift 5.5)
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
@@ -27,6 +31,18 @@ open class MockAsyncDataLoader: AsyncDataLoader {
     public var resumeData: [Data] = []
     public var urls: [URL] = []
 
+#if canImport(FoundationNetworking)
+
+    public init(response: URLResponse, responseBody: Data = Data(), responseError: URLError? = nil, responseUrl: URL = URL(string: "/")!, isCancelled: Bool = false) {
+        self.response = response
+        self.responseBody = responseBody
+        self.responseError = responseError
+        self.responseUrl = responseUrl
+        self.isCancelled = isCancelled
+    }
+
+#else
+
     public init(response: URLResponse = URLResponse(), responseBody: Data = Data(), responseError: URLError? = nil, responseUrl: URL = URL(string: "/")!, isCancelled: Bool = false) {
         self.response = response
         self.responseBody = responseBody
@@ -34,6 +50,8 @@ open class MockAsyncDataLoader: AsyncDataLoader {
         self.responseUrl = responseUrl
         self.isCancelled = isCancelled
     }
+
+#endif
 
     public var nextResponse: URLResponse {
         guard let responseList = self.responses, let firstResponse = responseList.first else { return self.response }

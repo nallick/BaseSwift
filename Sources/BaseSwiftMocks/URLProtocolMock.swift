@@ -1,12 +1,16 @@
 //
 //  URLProtocolMock.swift
 //
-//  Copyright © 2019-2021 Purgatory Design.  Licensed under the MIT License.
+//  Copyright © 2019-2024 Purgatory Design.  Licensed under the MIT License.
 //
 //  See WWDC 2018, Testing Tips & Tricks, 9:15
 //
 
 import Foundation
+
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 open class URLProtocolMock: URLProtocol {
     public typealias RequestResponse = (response: HTTPURLResponse?, data: Data?)
@@ -32,10 +36,14 @@ open class URLProtocolMock: URLProtocol {
 
     /// Must be instantiated via URLSession.
     ///
+#if canImport(ObjectiveC)
     private override init(request: URLRequest, cachedResponse: CachedURLResponse?, client: URLProtocolClient?) {
         super.init(request: request, cachedResponse: cachedResponse, client: client)
     }
+#endif
 }
+
+#if canImport(ObjectiveC)
 
 extension URLProtocolMock {  // override URLProtocol
 
@@ -59,3 +67,5 @@ extension URLProtocolMock {  // override URLProtocol
 
     open override func stopLoading() {}
 }
+
+#endif
